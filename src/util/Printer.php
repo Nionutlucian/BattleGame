@@ -3,9 +3,13 @@
 
 namespace Game\util;
 
-
 use Game\Model\Player;
 
+/**
+ * Class Printer
+ * @package Game\util
+ * This class is used to print the battle messages based on an action
+ */
 class Printer{
 
     public static function print(string $action, Player $attacker, Player $defender,

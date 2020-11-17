@@ -9,6 +9,11 @@ use Game\Util\Constants;
 use Game\util\Printer;
 use Game\util\UtilFunctions;
 
+/**
+ * Class EmagiaBattle
+ * @package Game\Controller
+ * This class is used to simulate our battle based on requirements.
+ */
 class EmagiaBattle implements Battable {
 
     private $playerOne;

@@ -7,6 +7,12 @@ namespace Game\util;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
+/**
+ * Class CustomLogger
+ * @package Game\util
+ * Logger class
+ * Implemented with SINGLETON
+ */
 class CustomLogger {
     private static $instance = null;
     private $logger;

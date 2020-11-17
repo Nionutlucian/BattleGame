@@ -10,6 +10,11 @@ use Game\util\Printer;
 use Game\util\UtilFunctions;
 use Throwable;
 
+/**
+ * Class Hero
+ * @package Game\Model
+ * This class is used to store information about Hero player
+ */
 class Hero extends Player {
 
     public function __construct(){

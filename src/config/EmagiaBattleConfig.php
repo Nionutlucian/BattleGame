@@ -8,7 +8,7 @@ use Game\Util\Constants;
  * Class EmagiaBattleConfig
  * In this class we store the configuration values for EmagiaBattle
  */
-class EmagiaBattleConfig {
+final class EmagiaBattleConfig {
 
     const NO_ROUNDS = 20;
 

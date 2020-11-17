@@ -1,12 +1,16 @@
 <?php
 
-
 namespace Game\util;
-
 
 use Game\Model\Player;
 
+/**
+ * Class UtilFunctions
+ * @package Game\util
+ * This class is used to store some static helpers methods.
+ */
 class UtilFunctions {
+
 
     public static function tryYourLuck(int $luck) : bool {
         if(rand(0, 100) < $luck){
