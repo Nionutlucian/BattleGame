@@ -12,6 +12,8 @@ class EmagiaBattleConfig {
 
     const NO_ROUNDS = 20;
 
+    const BATTLE_NAME = "EmagiaBattle";
+
     const HERO_PROPERTIES = [
         "Type" => Constants::PLAYER_TYPE_HERO,
         "Name" => "Orderus",

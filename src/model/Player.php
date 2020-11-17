@@ -106,9 +106,17 @@ class Player {
                 Printer::print(Constants::PLAYER_MISS, $this->getEnemyPlayer(), $this);
             }else {
                 $this->setHealth($this->getHealth() - $damage);
-                Printer::print(Constants::PLAYER_GIVE_DAMAGE, $this->getEnemyPlayer(), $this);
+                if($this->getHealth() > 0) {
+                    Printer::print(Constants::PLAYER_GIVE_DAMAGE, $this->getEnemyPlayer(), $this, null,
+                                    null, $damage);
+                }else{
+                    Printer::print(Constants::DEFENDER_IS_DEAD, $this->getEnemyPlayer(), $this,
+                        null, null, $damage);
+                    Printer::print(Constants::BATTLE_FINISHED, $this->getEnemyPlayer(), $this,
+                        null, null, $damage);
+                    exit();
+                }
             }
-
         }catch (Throwable $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
         }

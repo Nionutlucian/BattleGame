@@ -18,6 +18,7 @@ class Constants
     //Player actions
     const PLAYER_ATTACK = "attack";
     const PLAYER_GIVE_DAMAGE = "giveDamage";
+    const DEFENDER_IS_DEAD = "defenderIsDead";
     const PLAYER_MISS = "playerMiss";
     const PLAYER_DEFEND = "defend";
     const PLAYER_RAPID_STRIKE = "rapidStrike";
@@ -25,6 +26,10 @@ class Constants
 
     //Battle actions
     const BATTLE_STARTS = "battleStarts";
+    const ROUND_STARTS = "roundStarts";
+    const ROUND_ENDS = "roundEnds";
+    const DRAW_RESULT = "drawResult";
+    const BATTLE_FINISHED = "battleFinished";
 
     //Type of players
     const PLAYER_TYPE_HERO = "Hero";
