@@ -2,8 +2,11 @@
 
 namespace Game\Model;
 
-
-use Exception;
+use Game\Util\Constants;
+use Game\util\CustomLogger;
+use Game\util\Printer;
+use Game\util\UtilFunctions;
+use Throwable;
 
 /**
  * Class Player
@@ -13,7 +16,12 @@ use Exception;
  */
 class Player {
 
-    public function __construct() {}
+    public function __construct() {
+        $this->logger = CustomLogger::getInstance()->getLogger();
+    }
+
+    //logger need to be public because is inherited in child classes
+    public $logger;
 
     private string $name;
     private int $health;
@@ -75,20 +83,34 @@ class Player {
         $this->enemy = $enemy;
     }
 
+    public function getEnemyPlayer() : Player {
+        return $this->enemy;
+    }
+
     public function attack() {
         try {
-            echo "Attack";
-        }catch (Exception $e){
-            var_dump($e->getMessage());
+            Printer::print(Constants::PLAYER_ATTACK, $this, $this->getEnemyPlayer());
+            $damage = $this->getStrength() - $this->getEnemyPlayer()->getDefence();
+            $this->getEnemyPlayer()->defend($damage);
+
+
+        }catch (Throwable $e){
+            $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
         }
     }
 
-    public function defend() {
+    public function defend(int $damage) {
         try {
-            echo "Defend";
-        }catch (Exception $e){
-            var_dump($e->getMessage());
+            Printer::print(Constants::PLAYER_DEFEND, $this->getEnemyPlayer(), $this);
+            if(UtilFunctions::tryYourLuck($this->getLuck())){
+                Printer::print(Constants::PLAYER_MISS, $this->getEnemyPlayer(), $this);
+            }else {
+                $this->setHealth($this->getHealth() - $damage);
+                Printer::print(Constants::PLAYER_GIVE_DAMAGE, $this->getEnemyPlayer(), $this);
+            }
+
+        }catch (Throwable $e){
+            $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
         }
     }
-
 }

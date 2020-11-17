@@ -1,10 +1,10 @@
 <?php
 
-use \Game\Model\Player;
+use Game\Controller\EmagiaBattle;
+
 require_once realpath("vendor/autoload.php");
 
-$player = new Player();
+$battle = new EmagiaBattle();
+$battle->play();
 
-$myVar = 10;
-echo "It works " . $myVar;
 ?>
