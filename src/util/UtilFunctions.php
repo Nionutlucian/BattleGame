@@ -11,7 +11,6 @@ use Game\Model\Player;
  */
 class UtilFunctions {
 
-
     public static function tryYourLuck(int $luck) : bool {
         if(rand(0, 100) < $luck){
             return true;
@@ -33,5 +32,4 @@ class UtilFunctions {
         }
         return($playerOne->getSpeed() > $playerTwo->getSpeed()) ? -1 : 1;
     }
-
 }

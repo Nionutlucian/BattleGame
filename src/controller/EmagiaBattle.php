@@ -6,8 +6,10 @@ use Game\Config\EmagiaBattleConfig;
 use Game\Controller\Interfaces\Battable;
 use Game\Model\Factory\PlayerFactory;
 use Game\Util\Constants;
+use Game\util\CustomLogger;
 use Game\util\Printer;
 use Game\util\UtilFunctions;
+use Throwable;
 
 /**
  * Class EmagiaBattle
@@ -16,14 +18,15 @@ use Game\util\UtilFunctions;
  */
 class EmagiaBattle implements Battable {
 
+    private $logger;
     private $playerOne;
     private $playerTwo;
-
     private $players;
-
     private $isFirstRun = true;
 
     public function __construct() {
+        $this->logger = CustomLogger::getInstance()->getLogger();
+
         $this->playerOne = PlayerFactory::createPlayer(EmagiaBattleConfig::HERO_PROPERTIES["Type"]);
         $this->playerTwo = PlayerFactory::createPlayer(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["Type"]);
 
@@ -43,13 +46,17 @@ class EmagiaBattle implements Battable {
 
             Printer::print(Constants::ROUND_STARTS, $this->playerOne, $this->playerTwo,
                         EmagiaBattleConfig::BATTLE_NAME, $i + 1);
-
-            if($i % 2 == 0){
-                $attacker = array_values($this->players)[0];
-                $attacker->attack();
-            }else{
-                $attacker = array_values($this->players)[1];
-                $attacker->attack();
+            try {
+                if ($i % 2 == 0) {
+                    $attacker = array_values($this->players)[0];
+                    $attacker->attack();
+                } else {
+                    $attacker = array_values($this->players)[1];
+                    $attacker->attack();
+                }
+            }catch (Throwable $e){
+                $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+                var_dump($e->getMessage());
             }
 
             Printer::print(Constants::ROUND_ENDS, $this->playerOne, $this->playerTwo,
@@ -64,39 +71,45 @@ class EmagiaBattle implements Battable {
         }
     }
 
-    public function populateObjectsProperties() {
-        if($this->isFirstRun) {
-            $this->playerOne->setName(EmagiaBattleConfig::HERO_PROPERTIES["Name"]);
-            $this->playerOne->setHealth(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinHealth"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxHealth"]));
-            $this->playerOne->setRapidStrikeChance(EmagiaBattleConfig::HERO_PROPERTIES["RapidStrikeChance"]);
-            $this->playerOne->setMagicShieldChance(EmagiaBattleConfig::HERO_PROPERTIES["MagicShieldChance"]);
+    public function populateObjectsProperties()
+    {
+        try {
+            if ($this->isFirstRun) {
+                $this->playerOne->setName(EmagiaBattleConfig::HERO_PROPERTIES["Name"]);
+                $this->playerOne->setHealth(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinHealth"],
+                    EmagiaBattleConfig::HERO_PROPERTIES["MaxHealth"]));
+                $this->playerOne->setRapidStrikeChance(EmagiaBattleConfig::HERO_PROPERTIES["RapidStrikeChance"]);
+                $this->playerOne->setMagicShieldChance(EmagiaBattleConfig::HERO_PROPERTIES["MagicShieldChance"]);
 
-            $this->playerTwo->setName(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["Name"]);
-            $this->playerTwo->setHealth(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinHealth"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxHealth"]));
+                $this->playerTwo->setName(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["Name"]);
+                $this->playerTwo->setHealth(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinHealth"],
+                    EmagiaBattleConfig::HERO_PROPERTIES["MaxHealth"]));
 
-            $this->playerOne->setEnemyPlayer($this->playerTwo);
-            $this->playerTwo->setEnemyPlayer($this->playerOne);
+                $this->playerOne->setEnemyPlayer($this->playerTwo);
+                $this->playerTwo->setEnemyPlayer($this->playerOne);
 
+            }
+            $this->playerOne->setStrength(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinStrength"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxStrength"]));
+            $this->playerOne->setDefence(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinDefence"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxDefence"]));
+            $this->playerOne->setSpeed(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinSpeed"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxSpeed"]));
+            $this->playerOne->setLuck(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinLuck"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxLuck"]));
+
+
+            $this->playerTwo->setStrength(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinStrength"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxStrength"]));
+            $this->playerTwo->setDefence(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinDefence"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxDefence"]));
+            $this->playerTwo->setSpeed(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinSpeed"],
+                EmagiaBattleConfig::HERO_PROPERTIES["MaxSpeed"]));
+            $this->playerTwo->setLuck(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinLuck"],
+                EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MaxLuck"]));
+        }catch (Throwable $e){
+            $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
-        $this->playerOne->setStrength(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinStrength"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxStrength"]));
-        $this->playerOne->setDefence(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinDefence"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxDefence"]));
-        $this->playerOne->setSpeed(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinSpeed"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxSpeed"]));
-        $this->playerOne->setLuck(rand(EmagiaBattleConfig::HERO_PROPERTIES["MinLuck"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxLuck"]));
-
-
-        $this->playerTwo->setStrength(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinStrength"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxStrength"]));
-        $this->playerTwo->setDefence(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinDefence"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxDefence"]));
-        $this->playerTwo->setSpeed(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinSpeed"],
-                                                EmagiaBattleConfig::HERO_PROPERTIES["MaxSpeed"]));
-        $this->playerTwo->setLuck(rand(EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MinLuck"],
-                                                EmagiaBattleConfig::WILD_BEAST_PROPERTIES["MaxLuck"]));
-        }
+    }
 }

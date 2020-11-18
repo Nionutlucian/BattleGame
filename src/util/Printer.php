@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Game\util;
 
 use Game\Model\Player;
@@ -113,5 +112,4 @@ class Printer{
     private static function spanLine(){
         echo "<hr>";
     }
-
 }

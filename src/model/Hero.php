@@ -52,6 +52,7 @@ class Hero extends Player {
             }
         }catch (Exception $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
         return $result;
     }
@@ -66,6 +67,7 @@ class Hero extends Player {
             }
         }catch (Exception $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
         return $result;
     }
@@ -83,6 +85,7 @@ class Hero extends Player {
 
         }catch (Throwable $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
     }
 
@@ -108,6 +111,7 @@ class Hero extends Player {
             }
         }catch (Throwable $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
     }
 

@@ -11,6 +11,8 @@ class Constants
     const PLAYER_DEFENCE = 50;
     const PLAYER_SPEED = 40;
     const PLAYER_LUCK = 10;
+    const HERO_MAGIC_SHIELD_CHANGE = 30;
+    const HERO_RAPID_STRIKE_CHANCE = 10;
 
     //Exception messages
     const GENERAL_EXCEPTION_MESSAGE = "An exception occured!";

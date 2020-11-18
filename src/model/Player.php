@@ -96,6 +96,7 @@ class Player {
 
         }catch (Throwable $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
     }
 
@@ -119,6 +120,7 @@ class Player {
             }
         }catch (Throwable $e){
             $this->logger->error(Constants::GENERAL_EXCEPTION_MESSAGE, array('exception' => $e));
+            var_dump($e->getMessage());
         }
     }
 }
